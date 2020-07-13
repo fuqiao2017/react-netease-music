@@ -1,6 +1,7 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import MyErrorBoundary from './screens/AdvancedGuides/ErrorBoundary'
 import {
   ButtonCount,
   ListExample,
@@ -9,32 +10,43 @@ import {
   AsyncReadCurState,
   TimerOnceState
 } from './screens/Hook/Example'
+import {
+  MylazyPage
+} from './screens/AdvancedGuides/CodeSplitting'
+import ContextExp from './screens/AdvancedGuides/ContextExp'
 import UseContextExp from './screens/Hook/UseContextExp'
+import {FruitsShop, OneApp} from './screens/AdvancedGuides/RefsAndDom'
 
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-      <ButtonCount/>
-      <ListExample list={[{name: '小明'}, {name: '小黄'}, {name: '小孩'}]}/>
-      <UseContextExp/>
-      <ShowPrevCur/>
-      <AsyncOldState/>
-      <AsyncReadCurState/>
-      <TimerOnceState/>
+      <MyErrorBoundary>
+        {/* <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header> */}
+        <ButtonCount/>
+        <ListExample list={[{name: '小明'}, {name: '小黄'}, {name: '小孩'}]}/>
+        <UseContextExp/>
+        <ShowPrevCur/>
+        <AsyncOldState/>
+        <AsyncReadCurState/>
+        <TimerOnceState/>
+        <MylazyPage/>
+        <ContextExp/>
+        <FruitsShop/>
+        <OneApp/>
+      </MyErrorBoundary>
     </div>
   );
 }
