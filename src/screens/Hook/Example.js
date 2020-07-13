@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 // State Hook
 // useState
 export const ButtonCount = function () {
   console.log('ButtonCount execution')
-  // count 初始值 0，可以通过传入函数计算后返回
+  // count 初始值 0，可以通过传入函数计算后返回, React 只会在首次渲染时调用这个函数
   // useState(() => { do calculate; return value })
   const [count, setCount] = useState(0)
   // 一个对象状态
@@ -41,5 +41,101 @@ export const ListExample = function ({list = []}) {
         list.map((item, idx) => <li key={idx} onClick={() => setClientName(item.name)}>{item.name}</li>)
       }
     </ul>
+  )
+}
+
+// 如何获取上一轮的 props 或 state
+export const ShowPrevCur = function () {
+  const [count, setCount] = useState(0)
+  const prevRef = useRef()
+  useEffect(() => {
+    prevRef.current = count
+  })
+  // 首先 current 变化不会引起渲染
+  // 第一次 mounted 后执行 effect 之前 current = undefined，执行 effect 后 current = 0
+  // 第二次 update 时, current = 0, update 之后执行 effect，current = 1
+  const prevCount = prevRef.current
+  return (
+    <>
+      <button onClick={() => setCount(count+1)}>click for previous count</button>
+      <span>Now count = {count} ; previous count = {prevCount}</span>
+    </>
+  )
+}
+
+// 一个自定义的 usePrevious Hook
+function usePrevious (value) {
+  const prevRef = useRef()
+  useEffect(() => {
+    prevRef.current = value
+  })
+  return prevRef.current
+}
+
+// 异步回调中默认读取到 state 的旧值
+export const AsyncOldState = function () {
+  const [count, setCount] = useState(0)
+  function handleAsyncClick() {
+    setTimeout(() => {
+      alert(`show the time clicked count = ${count}`)
+    }, 3000)
+  }
+  const prevCount = usePrevious(count)
+  return (
+    <div>
+      <button onClick={() => setCount(count+1)}>click add count {count}</button>
+      <button onClick={handleAsyncClick}>show async alert {prevCount}</button>
+    </div>
+  )
+}
+
+// 通过 ref 使异步回调读取到最新的 state
+export const AsyncReadCurState = function () {
+  const [count, setCount] = useState(0)
+  const curRef = useRef()
+  curRef.current = count
+  function handleAsyncClick() {
+    setTimeout(() => {
+      alert(`show me cur count = ${curRef.current}`)
+    }, 5000)
+  }
+  return (
+    <div>
+      <button onClick={() => setCount(count+1)}>click add count {count}</button>
+      <button onClick={handleAsyncClick}>show async alert cur count</button>
+    </div>
+  )
+}
+
+// 如果 useEffect 里面有 计时器 setTimeout setInterval, 那么 基本上依赖就得传一个 空数组 [] 了,
+// 不然每次执行 effect 时, 计时器都会被重置
+// 而且要在 计时器回调里面访问最新 state 的话，还得通过 ref
+export const TimerOnceState = function (props) {
+  const [count, setCount] = useState(1)
+  const latestProps = useRef(count) // props
+  useEffect(() => {
+    latestProps.current = count // ref 的属性名 必须是 current
+  })
+  useEffect(() => {
+    console.log('TimerOnceState excuted effect')
+    function tick() {
+      // setCount(count+1) // 这种方式会有 warning，要求依赖count，但是我们不重置计时器必须传空数组
+      setCount(c => c+1) // 换成函数式就没有了 warning，这个时候 effct 内部没有依赖 count
+      // console.log(`这里读取不到最新的 count, 而是最初的 count = ${count}`)
+      // 通过 ref 读取最新的 props
+      // console.log(`无依赖的 effect 通过 ref 读取到最新的 props ${latestProps.current}`)
+      // 通过 ref 读取最新的 state count
+      console.log(`无依赖的 effect 通过 ref 读取到最新的 state count ${latestProps.current}`)
+      if (latestProps.current > 9) {
+        clearInterval(id)
+      }
+    }
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, []) // 这里要传空数组，因为我们不希望定时器被重置
+  return (
+    <div>
+      <button onClick={() => setCount(count+1)}>TimerOnceState count = {count}</button>
+    </div>
   )
 }

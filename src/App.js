@@ -3,7 +3,11 @@ import React from 'react';
 import './App.css';
 import {
   ButtonCount,
-  ListExample
+  ListExample,
+  ShowPrevCur,
+  AsyncOldState,
+  AsyncReadCurState,
+  TimerOnceState
 } from './screens/Hook/Example'
 import UseContextExp from './screens/Hook/UseContextExp'
 
@@ -27,6 +31,10 @@ function App() {
       <ButtonCount/>
       <ListExample list={[{name: '小明'}, {name: '小黄'}, {name: '小孩'}]}/>
       <UseContextExp/>
+      <ShowPrevCur/>
+      <AsyncOldState/>
+      <AsyncReadCurState/>
+      <TimerOnceState/>
     </div>
   );
 }
