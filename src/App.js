@@ -10,6 +10,7 @@ import {
   AsyncReadCurState,
   TimerOnceState
 } from './screens/Hook/Example'
+import {HookFetchData} from './screens/Hook/HookFetchData'
 import {
   MylazyPage
 } from './screens/AdvancedGuides/CodeSplitting'
@@ -49,6 +50,7 @@ function App() {
         <OneApp/>
         <ForwardRefApp/>
         <MyPc/>
+        <HookFetchData/>
       </MyErrorBoundary>
     </div>
   );
