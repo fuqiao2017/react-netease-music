@@ -159,6 +159,8 @@ export class ForwardRefApp extends React.Component {
         <YourFunBtn ref={this.YFB_ref}>Fun按钮</YourFunBtn>
 
         <EnhancedUserAvatar ref={this.userAva_ref}/>
+
+        { 0 && <h1>页面会显示前面的 0</h1> }
       </>
     )
   }
