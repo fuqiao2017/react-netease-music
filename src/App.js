@@ -15,7 +15,7 @@ import {
 } from './screens/AdvancedGuides/CodeSplitting'
 import ContextExp from './screens/AdvancedGuides/ContextExp'
 import UseContextExp from './screens/Hook/UseContextExp'
-import {FruitsShop, OneApp} from './screens/AdvancedGuides/RefsAndDom'
+import {FruitsShop, OneApp, ForwardRefApp} from './screens/AdvancedGuides/RefsAndDom'
 
 function App() {
   return (
@@ -46,6 +46,7 @@ function App() {
         <ContextExp/>
         <FruitsShop/>
         <OneApp/>
+        <ForwardRefApp/>
       </MyErrorBoundary>
     </div>
   );
