@@ -17,6 +17,7 @@ import ContextExp from './screens/AdvancedGuides/ContextExp'
 import UseContextExp from './screens/Hook/UseContextExp'
 import {FruitsShop, OneApp, ForwardRefApp} from './screens/AdvancedGuides/RefsAndDom'
 import {MyPc} from './screens/AdvancedGuides/OptimizePerf'
+import MyForm from './screens/KeyConcepts/Forms'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <MyPc/>
       {/* <HookFetchData/> */}
       <FetchExp2/>
+      <MyForm/>
     </div>
   );
 }
